@@ -1,0 +1,36 @@
+trigger:
+- main
+
+
+pool:
+  vmImage: ubuntu-latest
+
+
+steps:
+
+
+- task: UsePythonVersion@0
+  displayName: Setup Python
+
+  inputs:
+    versionSpec: '3.12'
+
+
+
+- script: |
+    pip install -r requirements.txt
+
+  displayName: Install dependencies
+
+
+
+- script: |
+    pytest
+
+  displayName: Run tests
+
+
+
+- script: |
+    docker build -t enterprise-ai-assistant:latest -f Dockerfile .
+  displayName: Build Docker image
